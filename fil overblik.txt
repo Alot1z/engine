@@ -1,0 +1,12 @@
+   /src: Kildekoden til motoren.
+        /rendering: Rendringsrelaterede filer.
+        /audio: Lydrelaterede filer.
+        /physics: Fysikrelaterede filer.
+        /input: Inputhåndteringsfiler.
+        /utils: Hjælpefunktioner og værktøjer.
+    /docs: Dokumentation og vejledninger.
+    /examples: Eksempler og demospil.
+    /assets: Grafik, lyd og andre ressourcer.
+    /tests: Testfiler og scripts.
+    /build: Kompilerede og byggede filer.
+    /changelog.md: Fil til at holde styr på ændringsloggen.
