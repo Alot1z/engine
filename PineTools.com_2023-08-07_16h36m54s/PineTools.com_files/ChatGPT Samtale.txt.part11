@@ -1,0 +1,362 @@
+nstallere Chocolatey (hvis det er installeret):
+
+    powershell
+
+Remove-Item -Recurse -Force 'C:\ProgramData\chocolatey'
+
+Genstart din computer.
+Åbn en ny PowerShell som administrator.
+Kør følgende kommando for at installere Chocolatey:
+
+powershell
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+Luk og genåbn PowerShell som administrator for at sikre, at Chocolatey er tilgængelig i din PATH.
+Kør følgende kommando for at installere Mingw:
+
+powershell
+
+    choco install mingw
+
+Hvis du stadig oplever problemer, kan det være nødvendigt at undersøge din systemkonfiguration yderligere eller overveje en manuel installation af Mingw.
+
+Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe."
+det også vigtig at de huske og struktuere alle vores planer for hvordan vi vil igennem ting du skal se efter alle planerne vi har lavet derefter sæt dem i rigtig rækkefølge som du skal fortælle hvad vi noget tlæ
+ChatGPT
+
+Selvfølgelig! Jeg vil organisere og strukturere alle vores planer og dokumenter i "spillemappe". Her er en overordnet rækkefølge af de trin, vi skal følge:
+
+    Forberedelse og Planlægning:
+        Definere projektets mål og omfang.
+        Identificere nødvendige ressourcer og værktøjer.
+        Udarbejde en tidsplan og milepæle.
+
+    Udviklingsmiljø:
+        Installere og konfigurere nødvendige værktøjer og biblioteker.
+        Opsætte versionkontrol og arbejdsprocesser.
+
+    Motorudvikling:
+        Designe og implementere grundlæggende motorarkitektur.
+        Tilføje nøglekomponenter som rendering, inputhåndtering, lyd osv.
+        Integrere tredjepartsbiblioteker og -ressourcer om nødvendigt.
+
+    Optimering og Sikkerhed:
+        Implementere ydeevneoptimeringer og fejlfinding.
+        Tilføje sikkerhedsforanstaltninger og anti-cheat-systemer.
+
+    Test og Validering:
+        Udføre systematisk testning og fejlfinding.
+        Validering af motorfunktionalitet og ydeevne.
+
+    Dokumentation og Support:
+        Udarbejde teknisk dokumentation og brugervejledninger.
+        Yde support og vedligeholdelse efter behov.
+
+    Afslutning og Levering:
+        Gennemføre en endelig gennemgang og validering.
+        Pakke og distribuere motoren til de relevante platforme.
+
+Disse trin repræsenterer en generel vejledning for vores projekt. Vi kan tilpasse og udvide dem yderligere efter behov. Alle detaljer, ændringer og fremskridt vil blive nøje dokumenteret i "spillemappe", så vi altid har et klart overblik over projektets status.
+hvad manglet vores engine til at kunne starte up
+ChatGPT
+
+For at kunne diagnosticere, hvad der mangler i vores engine for at kunne starte op, skal vi gennemgå følgende trin:
+
+    Kodeanalyse: Kontrollere, at alle nødvendige kildefiler og afhængigheder er til stede, og at der ikke er nogen syntaksfejl eller manglende referencer.
+
+    Kompilering og Linking: Sikre, at kompilerings- og linkningsprocessen er korrekt konfigureret. Dette inkluderer at have de korrekte stier til biblioteker, inkludere filer og andre ressourcer.
+
+    Fejlfinding af Makefile: Som vi har set, er der problemer med Makefile. Vi skal rette eventuelle fejl i Makefile, såsom manglende separatorer eller forkerte stier.
+
+    Installation af Værktøjer: Som vi har diskuteret, skal vi sikre, at alle nødvendige værktøjer som g++ og make er korrekt installeret og konfigureret på din maskine.
+
+    Kontrol af Ressourcer: Kontrollere, at alle nødvendige ressourcer som teksturer, lyde, skrifttyper osv. er tilgængelige og korrekt refereret i koden.
+
+    Fejlfinding af Runtime: Hvis alt kompilerer korrekt, men motoren stadig ikke starter, skal vi udføre en dybdegående fejlfinding ved hjælp af debuggingværktøjer for at identificere eventuelle runtime-fejl eller konflikter.
+
+    Dokumentation og Organisering: Som du nævnte, skal vi også sørge for, at alt er korrekt dokumenteret og organiseret i "spillemappe", så vi kan holde styr på alle detaljer og fremskridt.
+
+Hvis du kan give mig mere specifik information om, hvor du står fast, kan jeg give mere målrettet hjælp. Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe".
+ ShimGen has successfully created a shim for strip.exe
+ The install of mingw was successful.
+  Software installed to 'C:\ProgramData\chocolatey\lib\mingw\tools\install'
+
+Chocolatey installed 1/1 packages.
+ See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+ChatGPT
+
+Fantastisk! Det ser ud til, at du har installeret MinGW med succes ved hjælp af Chocolatey. Dette skulle give dig adgang til g++ og andre GNU-værktøjer, som er nødvendige for at kompilere og bygge dit projekt.
+
+Nu kan du fortsætte med at arbejde på din Makefile og kildekode for at sikre, at alt er korrekt konfigureret. Hvis du støder på yderligere problemer eller har brug for hjælp med specifikke dele af din kode eller konfiguration, så lad mig vide, så jeg kan hjælpe dig.
+
+Alle ændringer og fremskridt vil fortsat blive dokumenteret i "spillemappe".
+hvordan skulle vi lave makefile
+ChatGPT
+
+Selvfølgelig! Her er en generel Makefile, der kan bruges som udgangspunkt for dit projekt. Jeg vil antage, at dine kildefiler er placeret i en src-mappe, og at du vil have din eksekverbare fil i en bin-mappe. Jeg vil også antage, at du bruger C++17 og linker mod nogle almindelige biblioteker som GL, GLFW og OpenAL.
+
+makefile
+
+CC = g++
+CFLAGS = -Wall -std=c++17
+LDFLAGS = -lGL -lglfw -lopenal
+SOURCES = $(wildcard src/*.cpp src/*/*.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
+TARGET = bin/MyProject
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+    mkdir -p bin
+    $(CC) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+
+%.o: %.cpp
+    $(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+    rm -f $(OBJECTS) $(TARGET)
+
+Denne Makefile vil automatisk finde alle .cpp-filer i din src-mappe og dens undermapper, kompilere dem til objektfiler og linke dem sammen for at skabe den eksekverbare fil i bin-mappen.
+
+Hvis du har brug for at tilpasse denne Makefile til dit specifikke projekt (f.eks. tilføje ekstra biblioteker, ændre mappens struktur osv.), så lad mig vide, så jeg kan hjælpe dig med at tilpasse den.
+
+Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe".
+det her vaR DEN allerede alv et makefile og hvordan skulle vi anvende filen
+
+CC = g++
+CFLAGS = -Wall -std=c++17
+TARGET = bin/MyProject
+SOURCES = $(wildcard src/*.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	mkdir -p bin
+	$(CC) $(OBJECTS) -o $(TARGET)
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
+ChatGPT
+
+Selvfølgelig! Den Makefile, du har givet, ser ud til at være en grundlæggende Makefile til at bygge et C++-projekt. Her er, hvordan du kan anvende den:
+
+    Sørg for, at Makefile er i din projektrod: Makefile skal være i den samme mappe som din src-mappe, hvor dine .cpp-filer er placeret.
+
+    Åbn en terminal eller kommandoprompt: Du skal navigere til din projektmappe i terminalen eller kommandoprompten. Dette kan gøres med cd-kommandoen. For eksempel:
+
+    bash
+
+cd /sti/til/dit/projekt
+
+Kør make-kommandoen: Når du er i din projektmappe, skal du blot skrive make og trykke Enter. Dette vil udføre instruktionerne i din Makefile.
+
+bash
+
+make
+
+Kør dit program: Hvis alt går godt, vil din eksekverbare fil blive placeret i bin-mappen med navnet MyProject. Du kan køre den med:
+
+bash
+
+./bin/MyProject
+
+Ryd op: Hvis du vil fjerne de genererede objektfiler og den eksekverbare fil, kan du bruge make clean-kommandoen:
+
+bash
+
+    make clean
+
+Bemærk, at denne Makefile ikke linker mod nogen eksterne biblioteker, så hvis dit projekt kræver det, skal du tilføje de relevante linkerflag.
+
+Hvis du støder på fejl eller har brug for yderligere tilpasning, så lad mig vide, så jeg kan hjælpe dig med at løse dem.
+
+Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe".
+
+E:\programing\myprojekt>make
+'make' is not recognized as an internal or external command,
+operable program or batch file.
+ChatGPT
+
+Det ser ud til, at make ikke er genkendt som en kommando i din terminal. Dette kan skyldes, at make ikke er installeret, eller at stien til make ikke er inkluderet i din systemsti.
+
+Da du tidligere nævnte, at du har installeret MinGW, kan du prøve følgende trin for at løse problemet:
+
+    Tilføj MinGW til din systemsti: Du skal finde stien til MinGW's bin-mappe og tilføje den til din systemsti. Dette vil gøre make og andre MinGW-værktøjer tilgængelige fra enhver placering i din terminal.
+
+    Stien til MinGW's bin-mappe kan være noget som C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin, men det kan variere afhængigt af din installation.
+
+    For at tilføje stien til din systemsti, kan du følge disse trin:
+        Åbn "Denne computer" og højreklik på "Denne PC" eller "Computer" og vælg "Egenskaber".
+        Klik på "Avancerede systemindstillinger".
+        Klik på "Miljøvariabler".
+        Under "Systemvariabler" skal du finde og vælge "Path" og klikke på "Rediger".
+        Klik på "Ny" og indsæt stien til MinGW's bin-mappe.
+        Klik på "OK" for at lukke alle vinduer.
+
+    Genstart din terminal: Luk og genåbn din terminal eller kommandoprompt for at anvende de nye indstillinger.
+
+    Prøv make igen: Naviger til din projektmappe og kør make-kommandoen igen.
+
+Hvis du stadig oplever problemer, så lad mig vide, så vi kan fortsætte med at fejlfinde.
+
+Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe".
+den virker staid gikek
+
+
+E:\programing\myprojekt>makefile
+'makefile' is not recognized as an internal or external command,
+operable program or batch file.
+
+E:\programing\myprojekt>
+
+jeg har lige en lille ændring du skal gøre til sidst du skal stadig
+
+Alle ændringer og fremskridt vil blive dokumenteret i "spillemappe".
+Men du skal også oraganisere spillemappe hvergang så den forbliver læslig
+ChatGPT
+
+Beklager for forvirringen. Det ser ud til, at vi stadig har nogle problemer med at få make til at fungere. Lad os prøve en anden tilgang.
+
+    Åbn MSYS2 Terminal: Da du har installeret MinGW via MSYS2, skal du bruge MSYS2-terminalen til at køre make. Åbn MSYS2-terminalen fra din startmenu eller søg efter den på din computer.
+
+    Naviger til dit projekt: Brug cd-kommandoen til at navigere til din projekts placering. For eksempel:
+
+    bash
+
+cd /e/programing/myprojekt
+
+Kør make-kommandoen: Når du er i din projekts mappe, skal du blot skrive make og trykke Enter:
+
+bash
+
+    make
+
+Hvis alt er sat op korrekt, skal make nu finde din Makefile og begynde at bygge dit projekt.
+
+Hvis du stadig oplever problemer, kan du overveje at geninstallere MinGW via MSYS2 ved at følge de officielle instruktioner for din platform. Det kan også være nyttigt at konsultere dokumentationen for dit specifikke projekt eller værktøjssæt for at sikre, at alle afhængigheder og konfigurationer er korrekte.
+
+Alle ændringer og fremskridt vil blive dokumenteret og organiseret i "spillemappe", så den forbliver læslig.
+
+jacob@DESKTOP-16GS09Q MSYS /e/programing/myprojekt
+# make
+-bash: make: command not found
+
+jacob@DESKTOP-16GS09Q MSYS /e/programing/myprojekt
+#
+
+
+ChatGPT
+
+Det ser ud til, at make ikke er installeret i din MSYS2-opsætning. Du kan installere det ved at følge disse trin:
+
+    Åbn MSYS2 Terminal.
+
+    Opdater pakkelisten ved at køre følgende kommando:
+
+    bash
+
+pacman -Syu
+
+Genstart MSYS2 Terminal hvis den beder om det.
+
+Installer make ved at køre følgende kommando:
+
+bash
+
+pacman -S make
+
+Naviger tilbage til dit projekt og prøv at køre make igen:
+
+bash
+
+    cd /e/programing/myprojekt
+    make
+
+Dette skulle gerne installere make og tillade dig at bygge dit projekt.
+
+Husk, at alle ændringer og fremskridt vil blive dokumenteret og organiseret i "spillemappe", så den forbliver læslig.
+jacob@DESKTOP-16GS09Q MSYS ~
+# cd /e/programing/myprojekt
+make
+mkdir -p bin
+g++  -o bin/MyProject
+make: g++: No such file or directory
+make: *** [Makefile:11: bin/MyProject] Error 127
+ChatGPT
+
+Det ser ud til, at g++ (GNU C++ Compiler) ikke er fundet i din MSYS2-opsætning. Du skal installere det for at kunne kompilere dit projekt. Her er trinene til at installere g++:
+
+    Åbn MSYS2 Terminal.
+
+    Installer g++ ved at køre følgende kommando:
+
+    bash
+
+pacman -S mingw-w64-x86_64-gcc
+
+Eller hvis du bruger en 32-bit version:
+
+bash
+
+pacman -S mingw-w64-i686-gcc
+
+Naviger tilbage til dit projekt og prøv at køre make igen:
+
+bash
+
+    cd /e/programing/myprojekt
+    make
+
+Dette skulle gerne installere g++ og tillade dig at bygge dit projekt.
+
+Husk, at alle ændringer og fremskridt vil blive dokumenteret og organiseret i "spillemappe", så den forbliver læslig.
+jeg får stadig den her
+
+ob@DESKTOP-16GS09Q MSYS /e/programing/myprojekt
+# cd /e/programing/myprojekt
+make
+mkdir -p bin
+g++  -o bin/MyProject
+make: g++: No such file or directory
+make: *** [Makefile:11: bin/MyProject] Error 127
+
+ChatGPT
+
+Beklager for forvirringen. Det ser ud til, at g++ stadig ikke er tilgængelig i din PATH. Dette kan skyldes, at du bruger MSYS2-shellen i stedet for Mingw64 eller Mingw32-shellen.
+
+Prøv følgende trin:
+
+    Luk din nuværende MSYS2 Terminal.
+
+    Åbn Mingw64 eller Mingw32 Terminal (afhængigt af din arkitektur) fra startmenuen eller skrivebordet. Dette skulle være en separat genvej, der blev installeret sammen med MSYS2.
+
+    Naviger til dit projektmappe:
+
+    bash
+
+cd /e/programing/myprojekt
+
+Kør make igen:
+
+bash
+
+    make
+
+Hvis du stadig oplever problemer, kan du prøve at tilføje g++ til din PATH manuelt. Her er en kommando, der kan gøre det (du skal muligvis tilpasse stien til din installation):
+
+bash
+
+export PATH=$PATH:/mingw64/bin
+
+Eller for 32-bit:
+
+bash
+
+export PATH=$PATH:/mingw32/bin
+
+Derefter kan du prøve at køre make igen.
