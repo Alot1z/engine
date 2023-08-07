@@ -3649,4 +3649,8 @@ ChatGPT
 
 Jeg beklager for forvirringen, men jeg har ikke mulighed for at downloade eller få adgang til tidligere dele af samtalen uden for denne session. Jeg kan kun arbejde med de oplysninger, der er blevet delt med mig her.
 
+<<<<<<< HEAD
 Hvis du kan give mig de nødvendige detaljer om dit projekt, mappestrukturen, og hvad du forsøger at opnå, vil jeg gøre mit bedste for at hjælpe dig.
+=======
+Hvis du kan give mig de nødvendige detaljer om dit projekt, mappestrukturen, og hvad du forsøger at opnå, vil jeg gøre mit bedste for at hjælpe dig.
+>>>>>>> c6b70c34a9f8e89662470064b8b9c77693f34403
