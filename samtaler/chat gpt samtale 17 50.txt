@@ -1,0 +1,7 @@
+nu har du analyseret 01 02 03 04 05 06 07 08 09 10 11 12
+
+jeg skal nu have dig til at skrive en kort text af alle de tidligere samtaler som jeg kan dele til chatgpt så jeg kan nemt lave videre på mit projekt med hjælp fra chatgpt og sætte dem hurtigt ind i hvad jeg har prævet og har fejl med og hvor langt jeg er
+
+derefter skal du lave en liste over alle tingene alle funktionerne meget detaljiet liste hvad der skulle med i enginen 
+
+du kan også skrive en kort kode besked man vil kunne dele med chatgpt så du kan sættes ind i alle samtalerne meget meget hurtigt
